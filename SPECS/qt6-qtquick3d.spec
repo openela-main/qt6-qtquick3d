@@ -17,7 +17,7 @@
 Summary: Qt6 - Quick3D Libraries and utilities
 Name:    qt6-%{qt_module}
 Version: 6.9.1
-Release: 1%{?dist}
+Release: 1%{?dist}.1
 
 License: LGPL-3.0-only OR GPL-3.0-only WITH Qt-GPL-exception-1.0
 Url:     http://www.qt.io
@@ -30,6 +30,9 @@ Source0: https://download.qt.io/development_releases/qt/%{majmin}/%{qt_version}/
 Source0: https://download.qt.io/official_releases/qt/%{majmin}/%{version}/submodules/%{qt_module}-everywhere-src-%{version}.tar.xz
 %endif
 Patch0:  qtquick3d-fix-build-with-gcc11.patch
+# CVE-2025-11277: Add overflow check for texture dimensions in Q3DLoader
+# https://github.com/assimp/assimp/commit/0978918f7148fbcd3d05cc6573dae7859975a895
+Patch1:  qtquick3d-assimp-fix-CVE-2025-11277.patch
 
 BuildRequires: cmake
 BuildRequires: gcc-c++
@@ -321,6 +324,10 @@ popd
 %endif
 
 %changelog
+* Fri Nov 28 2025 Jan Grulich <jgrulich@redhat.com> - 6.9.1-1.1
+  Fix CVE-2025-11277 in bundled assimp library
+  Resolves: RHEL-120981
+
 * Wed May 14 2025 Jan Grulich <jgrulich@redhat.com> - 6.9.1-1
 - 6.9.1
   Resolves: RHEL-78543
